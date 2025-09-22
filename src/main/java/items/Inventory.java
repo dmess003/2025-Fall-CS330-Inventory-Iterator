@@ -1,10 +1,8 @@
 package items;
 
-import java.util.List;
 import java.util.ArrayList;
-
 import java.util.Iterator;
-import java.util.LinkedList;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -154,6 +152,7 @@ public class Inventory implements Iterable<ItemStack>, Cloneable
     public void addItemStackNoCheck(ItemStack toAdd)
     {
         // Add the missing (one) line by using `this.slots.add(????)`
+        this.slots.add(toAdd);
     }
 
     /**
@@ -242,6 +241,10 @@ public class Inventory implements Iterable<ItemStack>, Cloneable
         strBld.append(summaryLine);
 
         // Add the missing loop
+        for (ItemStack stack : slots)
+        {
+            strBld.append(stack.toString()).append(System.lineSeparator());
+        }
 
         return strBld.toString();
     }
