@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.Objects;
 
 /**
@@ -31,6 +32,12 @@ public class Inventory implements Iterable<ItemStack>, Cloneable
     public static void mergeStacks(ItemStack lhs, ItemStack rhs)
     {
         // Refer to the notes from Assignment 1
+        if(lhs.permitsStacking())
+        {
+            lhs.addItems(rhs.size());
+
+            rhs = null;
+        }
     }
 
     /**
@@ -95,6 +102,11 @@ public class Inventory implements Iterable<ItemStack>, Cloneable
     public boolean isFull()
     {
         // Replace the next line
+        if(utilizedSlots() == totalSlots())
+        {
+            return true;
+        }
+
         return false;
     }
 
@@ -119,6 +131,17 @@ public class Inventory implements Iterable<ItemStack>, Cloneable
     public ItemStack findMatchingItemStack(ItemStack key)
     {
         // Adapt the logic from Assignment 1
+        Iterator it = slots.iterator();
+
+        while(it.hasNext())
+        {
+            ItemStack current = (ItemStack) it.next();
+
+            if(current.equals(key))
+            {
+                return current;
+            }
+        }
 
         return null;
     }
@@ -168,6 +191,10 @@ public class Inventory implements Iterable<ItemStack>, Cloneable
         Inventory copy = new Inventory(this.totalSlots());
 
         // Add the missing copy logic (loop)
+        for(ItemStack stack: slots)
+        {
+            copy.addItemStackNoCheck(stack);
+        }
 
         return copy;
     }
